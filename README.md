@@ -11,5 +11,6 @@ checkIn Sys
     ...
     }
     ...
-
+如何运行：
+*执行npm run dev*
 
