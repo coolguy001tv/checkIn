@@ -5,7 +5,7 @@
   "main": "./server/index.js",
   "scripts": {
     "dev-static":"set NODE_ENV=development&&webpack-dev-server --devtool eval --progress --colors --hot --port 9090",
-    "dev-server":"NODE_ENV=development node --harmony ./server/index.js",
+    "dev-server":"set NODE_ENV=development&&node --harmony ./server/index.js",
     "build":"set NODE_ENV=production&&webpack -p&&npm run cron&&node --harmony ./server/index.js"
   },
   "author": "",
@@ -28,7 +28,9 @@
     "url-loader":"~0.5.6",
     "css-loader":"~0.23.0",
     "file-loader":"~0.8.5",
+    "bundle-loader": "^0.5.4",
     "koa":"latest",
+    "co-views": "~0.2.0",
     "node-cron":"latest",
     "webpack-require-http":"latest"
   }

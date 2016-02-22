@@ -1,13 +1,15 @@
 var path = require('path');
+var process = require('process');
 
 var config = {
     entry:{
         index:"./public/src/js/index.jsx"
     },
     output:{
-        path:"./public/",
-        filename:'dist/[name].js',
-        chunkFilename:'dist/[hash:8].chunk.js'
+        publicPath:process.env.NODE_ENV == 'development' ? "http://localhost:9090/" : "./public/dist/",
+        path:"./public/dist/",
+        filename:'[name].js',
+        chunkFilename:'chunk/[chunkhash:8].chunk.js'
     },
     externals: [
         {
@@ -23,6 +25,10 @@ var config = {
             {
                 test:/\.jsx?$/,
                 loader:'babel'
+            },
+            {
+                test:/\.bundle\.jsx?$/,
+                loader:'bundle?lazy!babel'
             },
             {
                 test:/\.(scss|sass)?$/,
