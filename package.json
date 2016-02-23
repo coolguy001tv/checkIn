@@ -2,10 +2,11 @@
   "name": "check-in",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"webpack-dev-server --devtool eval --progress --colors --hot --port 9090"
+    "dev-static":"set NODE_ENV=development&&webpack-dev-server --devtool eval --progress --colors --hot --port 9090",
+    "dev-server":"set NODE_ENV=development&&node --harmony ./server/index.js",
+    "build":"set NODE_ENV=production&&webpack -p&&npm run cron&&node --harmony ./server/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,7 +16,9 @@
     "node-adodb": "^2.0.2",
     "react":"~0.14.2",
     "react-dom":"~0.14.2",
-    "react-component-lib":"*",
+    "react-component-lib":"latest",
+    "react-router":"latest",
+    "koa-router":"latest",
     "node-sass":"3.4.2",
     "jsx-loader":"~0.13.2",
     "babel-loader":"~5.3.2",
@@ -24,6 +27,11 @@
     "style-loader":"~0.13.0",
     "url-loader":"~0.5.6",
     "css-loader":"~0.23.0",
-    "file-loader":"~0.8.5"
+    "file-loader":"~0.8.5",
+    "bundle-loader": "^0.5.4",
+    "koa":"latest",
+    "co-views": "~0.2.0",
+    "node-cron":"latest",
+    "webpack-require-http":"latest"
   }
 }
