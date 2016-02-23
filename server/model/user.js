@@ -8,12 +8,7 @@ var User = module.exports = function(router) {
 
 User.prototype = {
     register:function() {
-        //this.router.get('/user/login', function *() {
-        //    this.type = 'application/json';
-        //    this.body = '{errcode:1, msg:"user is not exist"}';
-        //});
-        this.router.post('/user/login/:name/:password',function (){
-            console.log(this.params);
+        this.router.get('/user/login', function() {
             this.type = 'application/json';
             var params = this.params;
             //console.log(this.name,this.password);
@@ -23,6 +18,12 @@ User.prototype = {
             }else{
                 this.body = JSON.stringify({"msg":params.name+" is not ok"});
             }
+        });
+
+        this.router.post('/user/login', function *() {
+            var post = (yield parse.form(this));
+            this.type = 'application/json';
+            this.body = JSON.stringify(post);
         });
     }
 };
