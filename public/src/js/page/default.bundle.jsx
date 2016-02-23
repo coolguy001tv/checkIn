@@ -6,7 +6,7 @@ module.exports = React.createClass({
             {this.props.children || (
                 <div>
                     <span>This is a default page</span>
-                    <Link to="/page/login">Jump to Login</Link>
+                    <Link to="/login">Jump to Login</Link>
                 </div>
             )}
         </div>;

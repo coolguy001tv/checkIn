@@ -1,0 +1,46 @@
+@import "base.scss";
+
+h1{
+  font-size: 16px;
+}
+.login-center{
+  width:340px;
+  margin: 0 auto;
+  margin-top: 200px;
+  text-align: center;
+
+}
+
+.form-content{
+  background-color: #ffffff;
+  border: 1px solid #cfcfcf;
+  text-align: left;
+  margin-top: 20px;
+  padding:20px;
+  label,input{
+    width:100%;
+  }
+  input{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    min-height: 34px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border:1px solid #dfdfdf;
+    //padding: 0 10px;
+    &:last-child{
+      margin-top: 0;
+    }
+    &[type="submit"]{
+      border: 1px solid #60b044;
+      background-color: #60b044;
+      color: #ffffff;
+    }
+  }
+}
+
+.notice{
+  width: 100%;
+  display: block;
+}

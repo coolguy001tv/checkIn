@@ -1,14 +1,25 @@
 import loader from './common/loader.jsx';
-
+import Layout from './common/layout.jsx';
+import List from './page/list.jsx';
 module.exports = [
     {
+        // 带有公共模块的
         path:'page',
-        component:loader(require("./page/default.bundle.jsx")),
-        route:[
-            {
-                path:'login',
-                component:loader(require("./page/login.bundle.jsx")),
-            }
-        ]
+        component:Layout, //loader(require('./common/layout.jsx')),
+        route:[{
+            path:'list',
+            component:require("./page/list.jsx")
+        },{
+            path:'member',
+            component:require("./page/member.jsx")
+        }]
+    },
+    {
+        path:'login',
+        component:loader(require("./page/login.bundle.jsx"))
+    },
+    {
+        path:"/",
+        component:loader(require("./page/default.bundle.jsx"))
     }
 ];
