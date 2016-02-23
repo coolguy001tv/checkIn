@@ -31,6 +31,7 @@
     "bundle-loader": "^0.5.4",
     "koa":"latest",
     "co-views": "~0.2.0",
+    "co-body":"latest",
     "node-cron":"latest",
     "webpack-require-http":"latest"
   }
