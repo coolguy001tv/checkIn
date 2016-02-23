@@ -1,4 +1,4 @@
-# checkIn
+## checkIn
 checkIn Sys
 
 *注意* 记得下载完Node_modules后务必参考[node-adodb issues](https://github.com/nuintun/node-adodb/issues/13)或按照下文进行源码修改:
@@ -14,8 +14,9 @@ checkIn Sys
     ...
     }
     ...
+
 如何运行：
 
-*执行node server.js*
-*执行npm run dev*
+* 执行npm run dev-static
+* 执行npm run dev-server
 

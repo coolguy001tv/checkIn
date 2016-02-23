@@ -1,0 +1,22 @@
+body{
+  background-color: #f3f3f4;
+  font-size: 14px;
+}
+
+.red-color{
+  color: red;
+}
+.text-center{
+  text-align: center;
+}
+.clearfix{
+  *zoom: 1;
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
