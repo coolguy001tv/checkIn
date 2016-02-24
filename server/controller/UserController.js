@@ -10,6 +10,7 @@ var User = module.exports = function(router) {
 
 User.prototype = {
     register:function() {
+        //获取校验用户名密码的结果
         var getCheckResult = function *(oneUser){
             var check = yield oneUser.check();
             //console.log("I am the result",check);

@@ -1,5 +1,6 @@
 /**
  * Created by CoolGuy on 2016/2/24.
+ * 用于处理最终的结果的格式
  */
 module.exports = {
     set:function(success,msg,resultMap){

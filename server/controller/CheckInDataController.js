@@ -4,6 +4,7 @@
 var Controller = require('../controller');
 var parse = require('co-body');
 var R = require('./../R.js');
+var CheckInDataModel = require('../model/CheckInModel');
 
 var CheckIn = module.exports = function(router) {
     Controller.call(this, router);
@@ -15,9 +16,15 @@ CheckIn.prototype = {
 
         this.router.get('/get/checkIn', function *() {
             this.type = 'application/json';
-            var params = this.params;
+            var post = (yield parse.form(this));
             //console.log(params);
-            var oneUser = UserController(params.name,params.password);
+            var checkInData = CheckInDataModel({
+                name:'',
+                startTime:"",
+                endTime:"",
+                pageIndex:1,
+                pageSize:10
+            });
             this.body = yield getCheckResult(oneUser);
         });
 
