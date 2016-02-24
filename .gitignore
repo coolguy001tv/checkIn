@@ -3,4 +3,5 @@ node_modules
 public/dist
 *.log
 *.mdb
+*.ldb
 checkInSys
