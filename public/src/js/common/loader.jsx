@@ -6,6 +6,7 @@ module.exports = function(component) {
             };
         },
         componentDidMount:function() {
+            console.log("loader",component);
             component(function(instance) {
                 this.setState({
                     instance:instance
