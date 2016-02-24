@@ -12,7 +12,12 @@ module.exports = function CheckInModel(obj){
     var getList = function(){
         
     };
+    //获取的中条数
+    var listLen = function(){
+
+    };
     return {
-        getList:getList
+        getList:getList,
+        listLen:listLen
     }
 };
