@@ -36,12 +36,23 @@ module.exports = function(id,name){
     var getUserByName = function(){
         return new Promise(function(resolve,reject){
             connection
-                .query('select * from USERINFO where Name='+name+'');
+                .query('select * from USERINFO where Name=\"'+name+'\"')
+                .on('done',function(data){
+                    var records = data.records;
+                    console.log(records);
+                    resolve(records);
+                })
+                .on('fail',function(data){
+                    console.log('-------------------------------error -----------');
+                    console.log(data);
+                    reject(data);
+                })
         });
     }
     return {
         id:id,
         name:name,
-        getUserById:getUserById
+        getUserById:getUserById,
+        getUserByName:getUserByName
     }
 };

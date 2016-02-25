@@ -16,7 +16,8 @@ KUser.prototype = {
     register:function(){
         //获取用户信息
         var getUserInfo = function *(user){
-            var info = yield user.getUserById();
+            var method = user.id ? user.getUserById : user.getUserByName;
+            var info = yield method();
             return R.set(true,"",info);
         };
         this.router.get('/getKUserById/:id',function *(){

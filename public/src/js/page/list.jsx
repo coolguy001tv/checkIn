@@ -44,7 +44,7 @@ module.exports = React.createClass({
                 _this.setState({
                     sourceData:list,
                     pageData:{
-                        pageSize:pageSizea,
+                        pageSize:pageSize,
                         currentPage:pageIndex,
                         totalNum:totalNum
                     }
