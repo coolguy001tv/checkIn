@@ -17,7 +17,7 @@ module.exports = function(id,name){
             if(isNaN(uid)){
                 reject(2);//异常
             }
-            var connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source=att2000.mdb;');
+            var connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source='+conf.accessDbName+';');
             connection
                 .query('select * from USERINFO where USERID='+id)
                 .on('done',function(data){
