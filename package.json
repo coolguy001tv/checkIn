@@ -11,9 +11,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "babel-loader": "latest",
-    "babel-preset-es2015": "^6.5.0",
-    "babel-preset-stage-3": "^6.5.0",
+    "babel-core": "^5.0.0",
+    "babel-loader": "^5.3.3",
     "bundle-loader": "^0.5.4",
     "co-body": "latest",
     "co-views": "~0.2.0",
