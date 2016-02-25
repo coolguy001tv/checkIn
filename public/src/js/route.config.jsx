@@ -12,6 +12,9 @@ module.exports = [
         },{
             path:'member',
             component:require("./page/member.jsx")
+        },{
+            path:'user',
+            component:require("./page/userList.jsx")
         }]
     },
     {

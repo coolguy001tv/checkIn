@@ -1,0 +1,51 @@
+@import "base";
+.content{
+  padding:0 20px;
+  .content-title{
+    padding: 29px 0 20px 0px;
+    &:before{
+      content: "";
+      display: table;
+    }
+    .site{
+      display: block;
+      width: 14px;
+      height: 17px;
+      background: url("../image/map.png") no-repeat;
+    }
+    .special{
+      margin-left: 10px;
+      line-height: 17px;
+    }
+  }
+}
+.list-content{
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.list-top{
+  .date-picker{
+    display: inline-block;
+  }
+  .params{
+    float: left;
+    margin-right: 20px;
+  }
+  .search-btn{
+    margin-right: 10px;
+  }
+}
+
+.list-table{
+  margin-top: 20px;
+}
+.no-data{
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+}
+.pager{
+  margin-top: 20px;
+  float: right;
+}

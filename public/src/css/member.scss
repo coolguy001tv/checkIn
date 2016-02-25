@@ -1,0 +1,13 @@
+.user-dialog{
+  width: 800px;
+  .width-25{
+    width: 25%;
+    .rui-table-column-item{
+      padding: 0;
+      margin: 18px 0;
+    }
+  }
+  .li-disabled{
+    background-color: #ededed;
+  }
+}
