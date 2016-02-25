@@ -11,10 +11,10 @@ router.get('/', function *(next) {
     this.body = view_common;
 });
 
-var model_path = path.resolve(__dirname, config.model);
-fs.readdirSync(model_path).forEach(function(file) {
-    var Model = require(path.resolve(model_path, file));
-    new Model(router);
+var controller_path = path.resolve(__dirname, config.controller);
+fs.readdirSync(controller_path).forEach(function(file) {
+    var Controller = require(path.resolve(controller_path, file));
+    new Controller(router);
 });
 
 app.use(router.routes());
