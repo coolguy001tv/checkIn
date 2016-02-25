@@ -106,4 +106,23 @@
 }
 ```
 
+## 设置班次
+* 链接： /set/class
+* 方式： POST
+* 字段
+```
+{
+    users:[1,2,3,4],//用户ID数组
+    classId:1,//设置的 班次ID
+}
+```
+* 回调：
+```
+{
+    description:"",
+    success:true,
+    resultMap:null
+}
+```
+
 

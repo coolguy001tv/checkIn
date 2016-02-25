@@ -4,7 +4,7 @@
  */
 var conf = require('./conf');//配置文件
 var ADODB = require('node-adodb');
-
+var connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source='+conf.accessDbName+';');
 // 全局调试开关，默认关闭
 ADODB.debug = true;
 
@@ -17,7 +17,6 @@ module.exports = function(id,name){
             if(isNaN(uid)){
                 reject(2);//异常
             }
-            var connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source='+conf.accessDbName+';');
             connection
                 .query('select * from USERINFO where USERID='+id)
                 .on('done',function(data){
@@ -33,7 +32,16 @@ module.exports = function(id,name){
         });
 
     };
+    //根据名字获取 用户信息
+    var getUserByName = function(){
+        return new Promise(function(resolve,reject){
+            connection
+                .query('select * from USERINFO where Name='+name+'');
+        });
+    }
     return {
+        id:id,
+        name:name,
         getUserById:getUserById
     }
 };

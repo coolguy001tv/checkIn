@@ -26,6 +26,12 @@ KUser.prototype = {
             this.body = yield getUserInfo(user);
 
         });
+        this.router.get('/getKUserByName/:name',function *(){
+            this.type = 'application/json';
+            var params = this.params;
+            var user = KUserModel(null,params.name);
+            this.body = yield getUserInfo(user);
+        });
     }
 
 }
