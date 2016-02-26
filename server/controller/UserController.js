@@ -16,7 +16,7 @@ User.prototype = {
             //console.log("I am the result",check);
             return R.set(check == 0, "",'');
         };
-
+        //支持2中协议的登录
         this.router.post('/user/login/:name/:password', function *() {
             this.type = 'application/json';
             var params = this.params;
@@ -24,7 +24,6 @@ User.prototype = {
             var oneUser = UserModel(params.name,params.password);
             this.body = yield getCheckResult(oneUser);
         });
-        //
         this.router.post('/user/login', function *() {
             var post = (yield parse.form(this));
             this.type = 'application/json';
@@ -32,10 +31,7 @@ User.prototype = {
             var oneUser = UserModel(post.name,post.password);
             this.body = yield getCheckResult(oneUser);
         });
-        //初始化专用，正常情况下不需要暴露出来
-        this.router.get('/user/init',function(){
-            UserModel("","").init();
-        });
+
 
     }
 };

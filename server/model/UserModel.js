@@ -29,21 +29,21 @@ function User(username,password){
             db.close();
         });
     };
-    var init = function(){
-        md5.update('123456');
-        var d = md5.digest('hex');
-        db.serialize(function(){
-            db.run('CREATE TABLE IF NOT EXISTS user(name varchar(20),password varchar(32))');
-            db.run('INSERT INTO user(`name`,`password`) values("admin",$password)',{
-                $password:d
-            });
-
-        });
-        db.close();
-    };
+    //var init = function(){
+    //    md5.update('123456');
+    //    var d = md5.digest('hex');
+    //    db.serialize(function(){
+    //        db.run('CREATE TABLE IF NOT EXISTS user(name varchar(20),password varchar(32))');
+    //        db.run('INSERT INTO user(`name`,`password`) values("admin",$password)',{
+    //            $password:d
+    //        });
+    //
+    //    });
+    //    db.close();
+    //};
     return {
-        check:check,
-        init:init
+        check:check/*,
+        init:init*/
     }
 }
 
