@@ -16,26 +16,55 @@ module.exports = function CheckInModel(obj){
         pageIndex:obj.pageIndex || 1,
         pageSize:obj.pageSize || 10
     };
-    debugger;
 
+    //where字符串拼接
+    var whereCombine = function(){
+        debugger;
+        var sql = ' ';
+        //todo:考虑异常字符串的情况
+        opt.startTime && (sql += ' and CHECKTIME > #' + opt.startTime + '#');
+        opt.endTime  && (sql += ' and CHECKTIME < #' + opt.endTime+ '#');
+        //console.log(sql);
+        return sql;
+    };
+    //获取最终结果，目前用在查询列表和查询总条数上
+    //根据是否传入用户名进行不同的逻辑处理
+    var getResult = function(querySql){
+        return new Promise(function(resolve,reject){
+            //程序异常
+            if(typeof  querySql !== 'function'){
+                reject(-1);
+            }
+            var where = " where 1=1 ";//where语句的拼接
+            //有姓名的查询需要在获取完用户ID之后再进行相关操作
+            if(opt.name){
+                var oneUser = KUserModel(null,opt.name);
+                oneUser.getUserByName().then(function(userInfo){
+                    var id = userInfo.USERID;
+                    where += 'USERID='+id;
+                    where += whereCombine();
+                    querySql(where).then(function(result){
+                        resolve(result);
+                    });
+                });
+            }else{
+                where += whereCombine();
+                querySql(where).then(function(result){
+                    resolve(result);
+                })
+            }
+        })
+
+    };
     var getList = function *(){
-        //where字符串拼接
-        var whereCombine = function(){
-            debugger;
-            var sql = ' ';
-            //todo:考虑异常字符串的情况
-            opt.startTime && (sql += ' and CHECKTIME > #' + opt.startTime + '#');
-            opt.endTime  && (sql += ' and CHECKTIME < #' + opt.endTime+ '#');
-            console.log(sql);
-            return sql;
-        };
+        //根据where语句查询结果
         var querySql = function (where){
             return new Promise(function(resolve,reject){
                 var sql =
                     'SELECT top '+ opt.pageSize + ' * ' +
                     'from ( select top '+opt.pageIndex * opt.pageSize+' USERID,CHECKTIME from CHECKINOUT '+
                     where + ' order by CHECKTIME desc'+') ';
-                console.log("sql----------------",sql);
+
                 connection
                     .query(sql)
                     .on('done',function(data){
@@ -49,52 +78,34 @@ module.exports = function CheckInModel(obj){
                         reject(data);
                     })
             })
-
-        }
-        //var where = " where 1=1 ";//where语句的拼接
-        //if(opt.name) {
-        //
-        //}else {
-        //    where += whereCombine();
-        //
-        //    return new Promise(function(resolve) {
-        //        querySql(where).then(function(value) {
-        //            resolve([]);
-        //        });
-        //    });
-        //}
-
-        var promise = new Promise(function (resolve,reject){
-            var where = " where 1=1 ";//where语句的拼接
-            //有姓名的查询需要在获取完用户ID之后再进行相关操作
-            if(opt.name){
-                var oneUser = KUserModel(null,opt.name);
-                oneUser.getUserByName().then(function(userInfo){
-                    var id = userInfo.USERID;
-                    where += 'USERID='+id;
-                    where += whereCombine();
-                    querySql(where).then(function(result){
-                        resolve(result);
-                    });
-
-                });
-                //var userInfo = yield (oneUser.getUserByName());
-
-            }else{
-                where += whereCombine();
-                querySql(where).then(function(result){
-                    resolve(result);
-                })
-
-            }
-        });
-        return promise;
+        };
+        return getResult(querySql);
 
 
     };
     //获取的中条数
     var listLen = function(){
+        var querySql = function(where){
+            return new Promise(function(resolve,reject){
+                var sql = 'SELECT count(*) from  CHECKINOUT ' + where;
+                connection
+                    .query(sql)
+                    .on('done',function(data){
+                        var records = data.records;
+                        //console.log(records);
+                        resolve(records[0].Expr1000);//Expr1000是access自动生成的字段
+                    })
+                    .on('fail',function(data){
+                        console.log('------------------error -----------');
+                        console.log(data);
+                        reject(data);
+                    })
+            });
 
+
+        };
+
+        return getResult(querySql);
     };
     return {
         getList:getList,

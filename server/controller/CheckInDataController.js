@@ -31,7 +31,7 @@ CheckIn.prototype = {
         };
         //获取签到列表
         var getCheckInList = function *(model){
-            var len = 1;
+            var len = yield model.listLen();
             var list = yield model.getList();
             //所属工作日
             var whichDay = function(date){
