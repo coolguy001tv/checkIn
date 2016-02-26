@@ -40,8 +40,9 @@ module.exports = function CheckInModel(obj){
             if(opt.name){
                 var oneUser = KUserModel(null,opt.name);
                 oneUser.getUserByName().then(function(userInfo){
-                    var id = userInfo.USERID;
-                    where += 'USERID='+id;
+                    //console.log(userInfo);
+                    var id = userInfo[0].USERID;
+                    where += ' and USERID='+id;
                     where += whereCombine();
                     querySql(where).then(function(result){
                         resolve(result);

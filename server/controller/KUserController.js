@@ -29,6 +29,7 @@ KUser.prototype = {
             info.forEach(function(value,key,arr){
                 value.id = value.USERID;
                 value.name = value.Name;
+                console.log(new Buffer(value.name));
                 value.classes = -1;//临时存放
                 delete  value.USERID;
                 delete value.Name;

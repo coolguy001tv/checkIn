@@ -37,11 +37,12 @@ module.exports = function(id,name){
     //根据名字获取 用户信息
     var getUserByName = function(){
         return new Promise(function(resolve,reject){
+            //目前因为数据库读出有乱码情况，只能先部分匹配
             connection
-                .query('select * from USERINFO where Name=\"'+name+'\"')
+                .query('select USERID,Name from USERINFO where Name like \''+name+'%%\'')
                 .on('done',function(data){
                     var records = data.records;
-                    console.log(records);
+                    //console.log(records);
                     resolve(records);
                 })
                 .on('fail',function(data){
