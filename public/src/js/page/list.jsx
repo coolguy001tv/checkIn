@@ -3,15 +3,9 @@ require("../../css/list.scss");
 module.exports = React.createClass({
     getInitialState:function(){
         return {
-            sourceData:[{
-                index:1,
-                date:"2016-01-20",
-                name:"张三",
-                time:"8:00:00",
-                note:"无"
-            }],
+            sourceData:[],
             pageData:{
-                pageSize:20,
+                pageSize:10,
                 currentPage:1,
                 totalNum:1
             }
@@ -36,11 +30,14 @@ module.exports = React.createClass({
         var url="/get/checkIn";
         postData.pageIndex=pageIndex || 1;
         postData.pageSize=pageSize;
-        $.post(url,postData,function(jsonData){
+        $.get(url,postData,function(jsonData){
             if(jsonData.success){
                 var data=jsonData.resultMap;
-                var totalNum=jsonData.iTotalDisplayRecords || 0;
+                var totalNum=data.iTotalDisplayRecords || 0;
                 var list=data.list || [];
+                list.forEach(function(item,index){
+                    item.index=(pageIndex-1)*pageSize+index+1;
+                })
                 _this.setState({
                     sourceData:list,
                     pageData:{
@@ -53,7 +50,7 @@ module.exports = React.createClass({
             }else{
                 alert(jsonData.description)
             }
-        });
+        },"json");
 
     },
     searchBtn:function(){
@@ -109,9 +106,9 @@ module.exports = React.createClass({
                 <div className="list-table clearfix">
                     <RUI.Table dataSource={this.state.sourceData}>
                         <RUI.Column title={"序号"} dataField={"index"}/>
-                        <RUI.Column title={"日期"} dataField={"date"} />
+                        <RUI.Column title={"日期"} dataField={"checkInDay"} />
                         <RUI.Column title={"姓名"} dataField={"name"} />
-                        <RUI.Column title={"签到时间"} dataField={"time"} />
+                        <RUI.Column title={"签到时间"} dataField={"checkInTime"} />
                         <RUI.Column title={"备注"} dataField={"note"} />
                     </RUI.Table>
                     <div className="no-data" style={{display:this.state.sourceData.length>0?"none":""}}>暂无数据~</div>

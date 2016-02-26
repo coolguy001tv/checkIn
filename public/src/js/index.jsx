@@ -1,7 +1,7 @@
 /**
  * Created by CoolGuy on 2016/2/22.
  */
-import { Router, Route, Link, hashHistory  } from 'react-router';
+import { Router, Route, Link, hashHistory} from 'react-router';
 import Layout from './common/layout.jsx';
 import routes from './route.config.jsx';
 

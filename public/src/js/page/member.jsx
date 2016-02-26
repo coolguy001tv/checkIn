@@ -27,24 +27,11 @@ module.exports = React.createClass({
     getUserList:function(){
         var url=API.GET_USER_List;
         var _this=this;
-        this.userList=[{
-            id:'1',
-            name:"张三",
-            classes:1
-        },{
-            id:'2',
-            name:"张三哒",
-            classes:4
-        },
-        {
-            id:'3',
-            name:"李四",
-            classes:2
-        }];
+        this.userList=[];
         $.get(url,{},function(jsonData){
             if(jsonData.success){
                 var data=jsonData.resultMap;
-                var list=data.list || [];
+                var list=data || [];
                 _this.userList=list;
             }else{
                 RUI.DialogManager.alert(jsonData.description, '提示');
@@ -110,7 +97,7 @@ module.exports = React.createClass({
     },
     getUserByPageIndex:function(index){
         var list=this.searchList;
-        var pageSize=2;
+        var pageSize=10;
         var totalNum=list.length || 1;
         var pageData={
             pageSize:pageSize,

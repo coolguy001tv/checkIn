@@ -1,6 +1,9 @@
 import {Link} from 'react-router';
 import Navbar from "../components/navbar.jsx";
 module.exports = React.createClass({
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
     getInitialState:function(){
         return {
             userName:"admin"
@@ -17,7 +20,7 @@ module.exports = React.createClass({
     },
     logOut:function(){
         //退出登录
-        this.props.history.pushState(null,'/login');
+        this.context.router.push('/login');
     },
     render:function() {
         return (
