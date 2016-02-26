@@ -28,7 +28,7 @@ CheckIn.prototype = {
                         : ''
                     );
             return str;
-        }
+        };
         //获取签到列表
         var getCheckInList = function *(model){
             var len = 1;
@@ -58,7 +58,7 @@ CheckIn.prototype = {
 
         };
 
-        this.router.post('/get/checkIn', function *(next) {
+        this.router.get('/get/checkIn', function *(next) {
             this.type = 'application/json';
             var post = this.query;
             var checkInDataModel = CheckInDataModel({

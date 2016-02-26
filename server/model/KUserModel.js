@@ -10,15 +10,17 @@ ADODB.debug = true;
 
 
 module.exports = function(id,name){
-    //用ID获取用户信息
+    //用ID获取用户信息,id为0表示获取所有用户信息
     var getUserById = function(){
         return new Promise(function(resolve,reject){
             var uid = Number(id);
             if(isNaN(uid)){
                 reject(2);//异常
             }
+            var sql = 'select USERID,Name from USERINFO';
+            (uid !== 0 ) && (sql +=' where USERID='+id);
             connection
-                .query('select * from USERINFO where USERID='+id)
+                .query(sql)
                 .on('done',function(data){
                     var records = data.records;
                     console.log(records);
