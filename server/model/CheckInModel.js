@@ -42,7 +42,7 @@ module.exports = function CheckInModel(obj){
                 oneUser.getUserByName().then(function(userInfo){
                     //console.log(userInfo);
                     var id = userInfo[0].USERID;
-                    where += ' and USERID='+id;
+                    where += ' and CHECKINOUT.USERID='+id;
                     where += whereCombine();
                     querySql(where).then(function(result){
                         resolve(result);
@@ -63,7 +63,8 @@ module.exports = function CheckInModel(obj){
             return new Promise(function(resolve,reject){
                 var sql =
                     'SELECT top '+ opt.pageSize + ' * ' +
-                    'from ( select top '+opt.pageIndex * opt.pageSize+' USERID,CHECKTIME from CHECKINOUT '+
+                    'from ( select top '+opt.pageIndex * opt.pageSize+' USERINFO.Name as Name,CHECKINOUT.CHECKTIME as CHECKTIME' +
+                    ' from (USERINFO inner join CHECKINOUT on USERINFO.USERID=CHECKINOUT.USERID) '+
                     where + ' order by CHECKTIME desc'+') ';
 
                 connection

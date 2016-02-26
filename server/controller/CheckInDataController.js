@@ -47,7 +47,11 @@ CheckIn.prototype = {
                 value.checkInTime = formatTime(date,1);
                 //所属工作日
                 value.checkInDay = formatTime(whichDay(date),2);
+                value.name = value.Name;
+                value.classes = -1;//暂时保持，后面优化
+
                 delete value.CHECKTIME;
+                delete value.Name;
             });
             //console.log('list', list);
             var resultMap = {
