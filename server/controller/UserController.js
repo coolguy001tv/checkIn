@@ -14,8 +14,9 @@ User.prototype = {
         var getCheckResult = function *(oneUser){
             var check = yield oneUser.check();
             //console.log("I am the result",check);
-            return R.set(check == 0, "",'');
+            return R.set(check.success, check.msg,'');
         };
+
         //支持2中协议的登录
         this.router.post('/user/login/:name/:password', function *() {
             this.type = 'application/json';

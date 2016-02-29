@@ -10,14 +10,19 @@ module.exports = function(){
     var getClassByUserId = function(userId){
         return new Promise(function(resolve,reject){
             if(!userId){
-                reject(-1);//用户名错误
+                //reject(-1);
+                // 用户名错误
+                resolve(conf.fillResponse(false,conf.response.FAIL,"请传入用户ID"))
             }
             db.serialize(function(){
                 db.get("select * from classMembers where userId=?",userId,function(err,row){
                     if(row){
-                        resolve(row.classId);//直接返回ID值
+                        //直接返回ID值
+                        resolve(conf.fillResponse(true,conf.response.SUCCESS,'获取成功',row.classId));
+                        //resolve(row.classId);
                     }else{
-                        reject(-2);//没有记录
+                        resolve(conf.fillResponse(false,conf.response.FAIL,'找不到该用户对应的记录'))
+                        //reject(-2);//没有记录
                     }
                 })
             });
@@ -29,9 +34,11 @@ module.exports = function(){
             db.serialize(function(){
                 db.all("select * from classMembers",function(err,rows){
                     if(!err){
-                        resolve(rows);
+                        //resolve(rows);
+                        resolve(conf.fillResponse(true,conf.response.SUCCESS,'获取成功',rows));
                     }else{
-                        reject(-5);//系统异常
+                        //reject(-5);//系统异常
+                        resolve(conf.fillResponse(false,conf.response.EXCEPTION,'系统异常'));
                     }
                 });
             })
@@ -42,10 +49,14 @@ module.exports = function(){
     var setClass = function(id,users){
         return new Promise(function(resolve,reject){
             if(!id){
-                reject(-1);//如果不存在ID，直接返回
+                // 如果不存在ID，直接返回
+                resolve(conf.fillResponse(false,conf.response.FAIL,"设置的ID不存在"));
+                return;
             }
             if(!users || !users.length || !(users instanceof Array)){
-                reject(-2);//用户数组不存在，或者压根不是数组，直接返回
+                //用户数组不存在，或者压根不是数组，直接返回
+                resolve(conf.fillResponse(false,conf.response.FAIL,"用户数组有问题"));
+                return;
             }
             //以下代码应当得到优化，否则效率很低（虽然在小数据量情况下没有啥）
             db.serialize(function(){
@@ -55,12 +66,13 @@ module.exports = function(){
                         //console.log(value,id);
                         if(err){//update理论上并不会出问题
                             console.log(err);
-                            reject(-3);//逻辑错误
+                            resolve(conf.fillResponse(false,conf.response.EXCEPTION,"更新数据出错"));
                         }
                         if(!row){//没有update成功，说明没有数据，插入一条
                             db.run("INSERT INTO classMembers(userId,classId) VALUES(?,?)",[value,id],function(err){
                                 if(err){
-                                    reject(-4);//逻辑错误
+                                    //逻辑错误
+                                    resolve(conf.fillResponse(false,conf.response.EXCEPTION,"插入数据异常"));
                                 }
                             });
                         }
@@ -70,7 +82,7 @@ module.exports = function(){
                 });
             });
             //先假定能够执行到这里的都是OK的
-            resolve(0);
+            resolve(conf.fillResponse(true,conf.response.SUCCESS,"更新成功"));
         });
 
 

@@ -21,7 +21,7 @@ KUser.prototype = {
             //注意支持user.id为0的情况，表示所有用户信息
             var method = !(user.id === null || user.id === undefined) ? user.getUserById : user.getUserByName;
             var info = yield method();
-            return R.set(true,"",info);
+            return R.set(info.success,info.msg,info.data);
         };
 
         //获取所有用户数据
@@ -40,15 +40,15 @@ KUser.prototype = {
                 });
                 return classElement ? classElement.classId : -1;
             };
-            info.forEach(function(value,key,arr){
+            info.data.forEach(function(value,key,arr){
                 value.id = value.USERID;
                 value.name = value.Name;
                 //console.log(new Buffer(value.name));
-                value.classes = getClassIdByUserId(classMembers,value.id);
+                value.classes = getClassIdByUserId(classMembers.data,value.id);
                 delete  value.USERID;
                 delete value.Name;
             });
-            return R.set(true,"",info);
+            return R.set(info.success,info.msg,info.data);
         };
 
 

@@ -21,8 +21,12 @@ module.exports = function(id){
             }
             db.serialize(function(){
                 db.all("select * from classes"+where,function(err,rows){
-                    console.log(rows);
-                    resolve(rows);
+                    if(err){
+                        resolve(conf.fillResponse(false,conf.response.EXCEPTION,"程序异常"));
+                        return;
+                    }
+                    //console.log(rows);
+                    resolve(conf.fillResponse(true,conf.response.SUCCESS,"获取成功",rows));
                 });
 
             })
