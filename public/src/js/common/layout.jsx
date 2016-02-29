@@ -6,10 +6,20 @@ module.exports = React.createClass({
     },
     getInitialState:function(){
         return {
-            userName:"admin"
+            userName:""
         }
     },
     componentDidMount:function(){
+        var loginInfo=window.sessionStorage.getItem("loginInfo");
+        if(loginInfo && JSON.parse(loginInfo).userName){
+            var userName=JSON.parse(loginInfo).userName;
+            this.setState({
+                userName:userName
+            })
+
+        }else{
+            this.context.router.push('/login');
+        }
         $(".logout").hover(function(){
             $(this).addClass("logout-more");
             $(".out-span").fadeIn('slow')
@@ -20,6 +30,7 @@ module.exports = React.createClass({
     },
     logOut:function(){
         //退出登录
+        window.sessionStorage.removeItem("loginInfo");
         this.context.router.push('/login');
     },
     render:function() {

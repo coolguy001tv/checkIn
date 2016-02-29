@@ -44,11 +44,10 @@ module.exports = React.createClass({
         $.get(url,{},function(jsonData){
             if(jsonData.success){
                 var data=jsonData.resultMap;
-                var list=data.list || [];
+                var list=data || [];
                 list.forEach(function(item,index){
                     item.index=index+1;
                 })
-                console.log(list);
                 _this.setState({
                     sourceData:list
                 })
