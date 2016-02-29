@@ -3,6 +3,7 @@
  */
 var Controller = require('../controller');
 var KUserModel = require('../model/KUserModel.js');
+var ClassMemeberModel = require('../model/ClassMemberModel');
 var parse = require('co-body');
 var R = require('./../R.js');
 
@@ -26,11 +27,24 @@ KUser.prototype = {
         //获取所有用户数据
         var getAllUsers = function *(user){
             var info = yield user.getUserById();
+            var classMembers = yield ClassMemeberModel().getAllClasses();
+            //根据ID找到对应的classId
+            var getClassIdByUserId = function(classMemberRows,userId){
+                if(!classMemberRows){
+                    return -1;
+                }
+                var classElement = classMemberRows.find(function(value,key,arr){
+                    if(value.userId == userId){
+                        return true;
+                    }
+                });
+                return classElement ? classElement.classId : -1;
+            };
             info.forEach(function(value,key,arr){
                 value.id = value.USERID;
                 value.name = value.Name;
-                console.log(new Buffer(value.name));
-                value.classes = -1;//临时存放
+                //console.log(new Buffer(value.name));
+                value.classes = getClassIdByUserId(classMembers,value.id);
                 delete  value.USERID;
                 delete value.Name;
             });
