@@ -5,6 +5,7 @@ var Controller = require('../controller');
 var parse = require('co-body');
 var R = require('./../R.js');
 var CheckInDataModel = require('../model/CheckInModel');
+var ClassMememberModel = require('../model/ClassMemberModel');
 
 var CheckIn = module.exports = function(router) {
     Controller.call(this, router);
@@ -33,6 +34,8 @@ CheckIn.prototype = {
         var getCheckInList = function *(model){
             var len = yield model.listLen();
             var list = yield model.getList();
+            var classMember = yield ClassMememberModel().getAllClasses();
+
             //所属工作日
             var whichDay = function(date){
                 var realDate = date;
@@ -41,6 +44,18 @@ CheckIn.prototype = {
                 }
                 return realDate;
             };
+            //根据ID找到对应的classId
+            var getClassIdByUserId = function(classMemberRows,userId){
+                if(!classMemberRows){
+                  return -1;
+                }
+                var classElement = classMemberRows.find(function(value,key,arr){
+                   if(value.userId == userId){
+                       return true;
+                   }
+                });
+                return classElement ? classElement.classId : -1;
+            };
             //对list字段进行相关处理并返回
             list.forEach(function(value,key,arr){
                 var date = new Date(value.CHECKTIME);
@@ -48,11 +63,13 @@ CheckIn.prototype = {
                 //所属工作日
                 value.checkInDay = formatTime(whichDay(date),2);
                 value.name = value.Name;
-                value.classes = -1;//暂时保持，后面优化
+                value.classes = getClassIdByUserId(classMember,value.USERID);//暂时保持，后面优化
 
                 delete value.CHECKTIME;
                 delete value.Name;
             });
+            //对数据中每一项的classes进行处理
+
             //console.log('list', list);
             var resultMap = {
                 list:list,

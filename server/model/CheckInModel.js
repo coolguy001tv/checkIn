@@ -63,7 +63,7 @@ module.exports = function CheckInModel(obj){
             return new Promise(function(resolve,reject){
                 var sql =
                     'SELECT * from (SELECT top '+ opt.pageSize + ' * ' +
-                    'from ( select top '+opt.pageIndex * opt.pageSize+' USERINFO.Name as Name,CHECKINOUT.CHECKTIME as CHECKTIME' +
+                    'from ( select top '+opt.pageIndex * opt.pageSize+' CHECKINOUT.USERID,USERINFO.Name as Name,CHECKINOUT.CHECKTIME as CHECKTIME' +
                     ' from (USERINFO inner join CHECKINOUT on USERINFO.USERID=CHECKINOUT.USERID) '+
                     where + ' order by CHECKTIME desc'+') order by CHECKTIME asc) order by CHECKTIME desc';
 

@@ -27,7 +27,11 @@ ClassController.prototype = {
         var setClass = function *(classId,users){
             var classes = yield ClassMemberModel().setClass(classId,users);
             return R.set(true,'设置成功',classes);
-        }
+        };
+        var getClassByUserId = function *(uId){
+            var classMember = yield ClassMemberModel().getClassByUserId(uId);
+            return R.set(true,'获取成功',classMember);
+        };
 
         this.router.get('/get/allClasses',function *(){
             this.type = 'application/json';
@@ -47,6 +51,12 @@ ClassController.prototype = {
             var users = post.users;
             var classId = post.classId;
             this.body = yield setClass(classId,users);
+        });
+        this.router.get('/getClassByUserId/:id',function *(){
+            this.type = 'application/json';
+            var params = this.params;
+            this.body = yield getClassByUserId(params.id);
+
         });
     }
 };

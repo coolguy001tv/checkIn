@@ -13,15 +13,30 @@ module.exports = function(){
                 reject(-1);//用户名错误
             }
             db.serialize(function(){
-                db.get("select * from classes where userId=",userId,function(err,row){
+                db.get("select * from classMembers where userId=?",userId,function(err,row){
                     if(row){
-                        console.log(row);
+                        resolve(row.classId);//直接返回ID值
                     }else{
                         reject(-2);//没有记录
                     }
                 })
-            })
+            });
         });
+    };
+    //获取所有用户对应的班次信息
+    var getAllClasses = function(){
+        return new Promise(function(resolve,reject){
+            db.serialize(function(){
+                db.all("select * from classMembers",function(err,rows){
+                    if(!err){
+                        resolve(rows);
+                    }else{
+                        reject(-5);//系统异常
+                    }
+                });
+            })
+        })
+
     };
     //设置班次
     var setClass = function(id,users){
@@ -29,8 +44,8 @@ module.exports = function(){
             if(!id){
                 reject(-1);//如果不存在ID，直接返回
             }
-            if(!users || !users.length){
-                reject(-2);//用户数组不存在，直接返回
+            if(!users || !users.length || !(users instanceof Array)){
+                reject(-2);//用户数组不存在，或者压根不是数组，直接返回
             }
             //以下代码应当得到优化，否则效率很低（虽然在小数据量情况下没有啥）
             db.serialize(function(){
@@ -62,6 +77,7 @@ module.exports = function(){
     };
     return {
         getClassByUserId:getClassByUserId,
+        getAllClasses:getAllClasses,
         setClass:setClass
     }
 };
