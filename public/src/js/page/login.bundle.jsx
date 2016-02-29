@@ -36,6 +36,11 @@ module.exports = React.createClass({
             var url=API.LOGIN;
             $.post(url,{name:userName,password:passWord},function(jsonData){
                 if(jsonData.success){
+                    //sessionStorage 存储
+                    var loginInfo={
+                        userName:userName
+                    };
+                    window.sessionStorage.setItem("loginInfo",JSON.stringify(loginInfo));
                     _this.context.router.push('/page/list');
                     return;
                 }else{

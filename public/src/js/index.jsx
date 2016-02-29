@@ -10,9 +10,12 @@ function renderRoute(data, index) {
         {(data.route || []).map(renderRoute)}
     </Route>;
 }
+
 var routeList = (
     <Router history={hashHistory}>
         {routes.map(renderRoute)}
     </Router>
 );
+
+
 ReactDOM.render(routeList, document.getElementById('wrapper'));
