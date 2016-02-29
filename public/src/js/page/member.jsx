@@ -123,7 +123,7 @@ module.exports = React.createClass({
             return true;
         }
         var url=API.SET_CLASSES;
-        $.post(url,{users:JSON.stringify(list),classId:this.curClassObj.id},function(jsonData){
+        $.post(url,{users:list,classId:this.curClassObj.id},function(jsonData){
             if(jsonData.success){
                 _this.userList.forEach(function(item){
                     if($.inArray(item.id,list)>=0){

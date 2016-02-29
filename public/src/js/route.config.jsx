@@ -23,6 +23,6 @@ module.exports = [
     },
     {
         path:"/",
-        component:loader(require("./page/default.bundle.jsx"))
+        component:loader(require("./page/login.bundle.jsx"))
     }
 ];
