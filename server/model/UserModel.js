@@ -18,30 +18,18 @@ function User(username,password){
                     if(err){
                         //统一修改登录失败的情况
                         console.log(err);
-                        reject(2)//失败
+                        resolve({success:false,code:conf.response.EXCEPTION,msg:"系统异常"})//系统异常
                     }
                     if(result){//说明找到了该条记录，登录成功
-                        resolve(0);//成功
+                        resolve({success:true,code:conf.response.SUCCESS,msg:"登录成功"});//成功
                     }else{
-                        resolve(1);//没有找到
+                        resolve({success:false,code:conf.response.FAIL,msg:"请检查用户名或密码是否有误"});//没有找到
                     }
                 });
             });
             db.close();
         });
     };
-    //var init = function(){
-    //    md5.update('123456');
-    //    var d = md5.digest('hex');
-    //    db.serialize(function(){
-    //        db.run('CREATE TABLE IF NOT EXISTS user(name varchar(20),password varchar(32))');
-    //        db.run('INSERT INTO user(`name`,`password`) values("admin",$password)',{
-    //            $password:d
-    //        });
-    //
-    //    });
-    //    db.close();
-    //};
     return {
         check:check/*,
         init:init*/
