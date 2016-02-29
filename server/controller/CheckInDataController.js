@@ -34,6 +34,7 @@ CheckIn.prototype = {
         var getCheckInList = function *(model){
             var len = yield model.listLen();
             var list = yield model.getList();
+            //console.log(list);
             var classMember = yield ClassMememberModel().getAllClasses();
 
             //所属工作日
@@ -57,13 +58,13 @@ CheckIn.prototype = {
                 return classElement ? classElement.classId : -1;
             };
             //对list字段进行相关处理并返回
-            list.forEach(function(value,key,arr){
+            list.data.forEach(function(value,key,arr){
                 var date = new Date(value.CHECKTIME);
                 value.checkInTime = formatTime(date,1);
                 //所属工作日
                 value.checkInDay = formatTime(whichDay(date),2);
                 value.name = value.Name;
-                value.classes = getClassIdByUserId(classMember,value.USERID);//暂时保持，后面优化
+                value.classes = getClassIdByUserId(classMember.data,value.USERID);//暂时保持，后面优化
 
                 delete value.CHECKTIME;
                 delete value.Name;
@@ -72,14 +73,19 @@ CheckIn.prototype = {
 
             //console.log('list', list);
             var resultMap = {
-                list:list,
-                iTotalDisplayRecords:len
+                list:list.data,
+                iTotalDisplayRecords:len.data
             };
-            return R.set(true,"获取成功",resultMap);
+            var errMsg = list.success ? '' : list.msg;
+            errMsg += len.success ? '&' : len.msg;
+            if(errMsg === '&'){
+                errMsg = '获取成功'
+            }
+            return R.set(list.success && len.success,errMsg,resultMap);
 
         };
 
-        this.router.get('/get/checkIn', function *(next) {
+        this.router.get('/get/checkIn', function *() {
             this.type = 'application/json';
             var post = this.query;
             var checkInDataModel = CheckInDataModel({

@@ -15,7 +15,8 @@ module.exports = function(id,name){
         return new Promise(function(resolve,reject){
             var uid = Number(id);
             if(isNaN(uid)){
-                reject(2);//异常
+                //异常
+                resolve(conf.fillResponse(false,conf.response.FAIL,"用户ID异常"));
             }
             var sql = 'select USERID,Name from USERINFO';
             (uid !== 0 ) && (sql +=' where USERID='+id);
@@ -23,13 +24,13 @@ module.exports = function(id,name){
                 .query(sql)
                 .on('done',function(data){
                     var records = data.records;
-                    console.log(records);
-                    resolve(records);
+                    //console.log(records);
+                    resolve(conf.fillResponse(true,conf.response.SUCCESS,"获取成功",records));
                 })
                 .on('fail',function(data){
                     console.log('-------------------------------error -----------');
                     console.log(data);
-                    reject(data);
+                    resolve(conf.fillResponse(false,conf.response.EXCEPTION,"系统异常"));
                 })
         });
 
@@ -42,13 +43,13 @@ module.exports = function(id,name){
                 .query('select USERID,Name from USERINFO where Name like \''+name+'%%\'')
                 .on('done',function(data){
                     var records = data.records;
-                    //console.log(records);
-                    resolve(records);
+                    //resolve(records);
+                    resolve(conf.fillResponse(true,conf.response.SUCCESS,"获取成功",records));
                 })
                 .on('fail',function(data){
                     console.log('-------------------------------error -----------');
                     console.log(data);
-                    reject(data);
+                    resolve(conf.fillResponse(false,conf.response.EXCEPTION,"程序异常"));
                 })
         });
     }

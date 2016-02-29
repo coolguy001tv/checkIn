@@ -15,22 +15,22 @@ ClassController.prototype = {
         //获取班次数据，如果传入的ID为空,则获取所有班次
         var getClasses = function *(classModel){
             var classes = yield classModel.getClass();
-            classes.forEach(function(value,key,arr){
+            classes.data.forEach(function(value,key,arr){
                 value.classDescrip = value.description;
                 value.classRule = value.ruleId;
                 delete value.description;
                 delete value.ruleId;
 
             });
-            return R.set(true,'获取成功',classes);
+            return R.set(classes.success,classes.msg,classes.data);
         };
         var setClass = function *(classId,users){
             var classes = yield ClassMemberModel().setClass(classId,users);
-            return R.set(true,'设置成功',classes);
+            return R.set(classes.success,classes.msg);
         };
         var getClassByUserId = function *(uId){
             var classMember = yield ClassMemberModel().getClassByUserId(uId);
-            return R.set(true,'获取成功',classMember);
+            return R.set(classMember.success,classMember.msg,classMember.data);
         };
 
         this.router.get('/get/allClasses',function *(){

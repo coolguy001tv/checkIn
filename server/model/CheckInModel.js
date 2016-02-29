@@ -33,15 +33,16 @@ module.exports = function CheckInModel(obj){
         return new Promise(function(resolve,reject){
             //程序异常
             if(typeof  querySql !== 'function'){
-                reject(-1);
+                resolve(-1);
             }
             var where = " where 1=1 ";//where语句的拼接
             //有姓名的查询需要在获取完用户ID之后再进行相关操作
             if(opt.name){
                 var oneUser = KUserModel(null,opt.name);
                 oneUser.getUserByName().then(function(userInfo){
+                    var data = userInfo.data;
                     //console.log(userInfo);
-                    var id = userInfo[0].USERID;
+                    var id = data[0].USERID;
                     where += ' and CHECKINOUT.USERID='+id;
                     where += whereCombine();
                     querySql(where).then(function(result){
@@ -71,13 +72,13 @@ module.exports = function CheckInModel(obj){
                     .query(sql)
                     .on('done',function(data){
                         var records = data.records;
-                        //console.log(records);
-                        resolve(records);
+                        resolve(conf.fillResponse(true,conf.response.SUCCESS,"获取成功",records));
+
                     })
                     .on('fail',function(data){
                         console.log('------------------error -----------');
                         console.log(data);
-                        reject(data);
+                        resolve(conf.fillResponse(false,conf.response.EXCEPTION,"系统异常，请检查程序代码"));
                     })
             })
         };
@@ -95,12 +96,13 @@ module.exports = function CheckInModel(obj){
                     .on('done',function(data){
                         var records = data.records;
                         //console.log(records);
-                        resolve(records[0].Expr1000);//Expr1000是access自动生成的字段
+                        //Expr1000是access自动生成的字段
+                        resolve(conf.fillResponse(true,conf.response.SUCCESS,'获取成功',records[0].Expr1000));
                     })
                     .on('fail',function(data){
                         console.log('------------------error -----------');
                         console.log(data);
-                        reject(data);
+                        resolve(conf.fillResponse(false,conf.response.EXCEPTION,'系统异常'));
                     })
             });
 
