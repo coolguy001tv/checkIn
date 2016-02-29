@@ -16,6 +16,7 @@ function User(username,password){
                 console.log(username,d);
                 db.get("SELECT * from user where name=? and password=?",[username,d],function(err,result){
                     if(err){
+                        //统一修改登录失败的情况
                         console.log(err);
                         reject(2)//失败
                     }

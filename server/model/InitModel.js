@@ -9,10 +9,12 @@ module.exports = function(){
     var md5 = crypto.createHash('md5');
     var db = new sqlite3.Database(conf.dbName);
     var init = function(){
-        initUser().then(function(data){
+        initUser().then(function(data){//table user
             if(data == 1){//需要新增数据
-                initClasses();
+                initClasses();//table classes
+                initClassMembers();
             }
+            db.close();
         });
     };
     //初始化用户名密码
@@ -48,7 +50,13 @@ module.exports = function(){
             db.run('INSERT INTO  classes(`className`,`description`,`ruleId`) values("未分组","未分组相关的班次信息",-1)');
             db.run('INSERT INTO  classes(`className`,`description`,`ruleId`) values("无班次","不需要打卡等相关的班次信息",-1)');
         });
-        db.close();
+
+    };
+    var initClassMembers = function(){
+        db.serialize(function(){
+            //将userId设置为主键，避免重复的问题
+            db.run('CREATE TABLE IF NOT EXISTS classMembers(userId integer primary key,classId integer)') ;
+        });
     };
     return {
         init:init

@@ -1,5 +1,6 @@
 /**
  * Created by CoolGuy on 2016/2/26.
+ *
  */
 var conf = require('./conf');//配置文件
 var crypto = require('crypto');
@@ -7,6 +8,7 @@ var sqlite3 = require('sqlite3').verbose();
 
 module.exports = function(id){
     var db = new sqlite3.Database(conf.dbName);
+    //根据班次ID获取班次
     var getClass = function(){
         return new Promise(function(resolve,reject){
             var where = '';

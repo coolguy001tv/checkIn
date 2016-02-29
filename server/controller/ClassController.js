@@ -3,6 +3,7 @@
  */
 var Controller = require('../controller');
 var ClassModel = require('../model/ClassModel.js');
+var ClassMemberModel = require('../model/ClassMemberModel.js');
 var parse = require('co-body');
 var R = require('./../R.js');
 var ClassController = module.exports = function(router) {
@@ -23,6 +24,11 @@ ClassController.prototype = {
             });
             return R.set(true,'获取成功',classes);
         };
+        var setClass = function *(classId,users){
+            var classes = yield ClassMemberModel().setClass(classId,users);
+            return R.set(true,'设置成功',classes);
+        }
+
         this.router.get('/get/allClasses',function *(){
             this.type = 'application/json';
             var classes = ClassModel();
@@ -34,6 +40,13 @@ ClassController.prototype = {
             //console.log(params);
             var classes = ClassModel(params.id);
             this.body = yield getClasses(classes);
+        });
+        this.router.post('/set/class',function *(){
+            var post = (yield parse.form(this));
+            this.type = 'application/json';
+            var users = post.users;
+            var classId = post.classId;
+            this.body = yield setClass(classId,users);
         });
     }
 };
