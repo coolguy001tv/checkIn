@@ -63,7 +63,8 @@ CheckIn.prototype = {
                 value.checkInTime = formatTime(date,1);
                 //所属工作日
                 value.checkInDay = formatTime(whichDay(date),2);
-                value.name = value.Name;
+                value.name = R.setRightWords(value.Name);
+                //console.log(value.Name,typeof value.Name);
                 value.classes = getClassIdByUserId(classMember.data,value.USERID);//暂时保持，后面优化
 
                 delete value.CHECKTIME;

@@ -13,7 +13,7 @@ function User(username,password){
             db.serialize(function(){
                 md5.update(password);
                 var d = md5.digest('hex');
-                console.log(username,d);
+                //console.log(username,d);
                 db.get("SELECT * from user where name=? and password=?",[username,d],function(err,result){
                     if(err){
                         //统一修改登录失败的情况

@@ -42,7 +42,7 @@ KUser.prototype = {
             };
             info.data.forEach(function(value,key,arr){
                 value.id = value.USERID;
-                value.name = value.Name;
+                value.name = R.setRightWords(value.Name);
                 //console.log(new Buffer(value.name));
                 value.classes = getClassIdByUserId(classMembers.data,value.id);
                 delete  value.USERID;
