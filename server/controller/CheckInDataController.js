@@ -86,7 +86,7 @@ CheckIn.prototype = {
 
         };
 
-        this.router.get('/get/checkIn', function *() {
+        this.router.get('/checkIn/list', function *() {
             this.type = 'application/json';
             var post = this.query;
             var checkInDataModel = CheckInDataModel({

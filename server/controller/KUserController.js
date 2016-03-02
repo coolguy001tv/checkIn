@@ -52,25 +52,25 @@ KUser.prototype = {
         };
 
 
-        this.router.get('/getKUserById/:id',function *(){
+        this.router.get('/kusers/id/:id',function *(){
             this.type = 'application/json';
             var params = this.params;
             var user = KUserModel(params.id);
             this.body = yield getUserInfo(user);
 
         });
-        this.router.get('/getKUserByName/:name',function *(){
+        this.router.get('/kusers/name/:name',function *(){
             this.type = 'application/json';
             var params = this.params;
             var user = KUserModel(null,params.name);
             this.body = yield getUserInfo(user);
         });
-        this.router.get('/getAllKUsers',function *(){
-            this.type = 'application/json';
-            var user = KUserModel(0);//0表示所有用户
-            this.body = yield getUserInfo(user);
-        });
-        this.router.get('/get/allUsers',function *(){
+        //this.router.get('/getAllKUsers',function *(){
+        //    this.type = 'application/json';
+        //    var user = KUserModel(0);//0表示所有用户
+        //    this.body = yield getUserInfo(user);
+        //});
+        this.router.get('/kusers/list',function *(){
             this.type = 'application/json';
             var user = KUserModel(0);//0表示所有用户
             this.body = yield getAllUsers(user);

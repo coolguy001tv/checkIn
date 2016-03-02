@@ -27,7 +27,7 @@ module.exports = React.createClass({
         var _this=this;
         var postData=_this.searchData;
         var pageSize=_this.state.pageData.pageSize;
-        var url="/get/checkIn";
+        var url="/checkIn/list";
         postData.pageIndex=pageIndex || 1;
         postData.pageSize=pageSize;
         $.get(url,postData,function(jsonData){
