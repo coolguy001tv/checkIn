@@ -90,7 +90,7 @@ module.exports = function CheckInModel(obj){
     var listLen = function(){
         var querySql = function(where){
             return new Promise(function(resolve,reject){
-                var sql = 'SELECT count(*) from  CHECKINOUT ' + where;
+                var sql = 'SELECT count(1) from  CHECKINOUT ' + where;
                 connection
                     .query(sql)
                     .on('done',function(data){

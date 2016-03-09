@@ -1,6 +1,25 @@
 import RUI from 'react-component-lib';
 import API from "../common/api.jsx";
 require("../../css/member.scss");
+
+var OperationItemRender = React.createClass({
+    setData:function(data) {
+        this.setState(data);
+    },
+    onAddUser:function() {
+        this.props.onAddUser && this.props.onAddUser(this.state);
+    },
+    onEditClass:function() {
+        this.props.onEditClass && this.props.onEditClass(this.state);
+    },
+    render:function() {
+        return <div>
+            <RUI.Button className="primary margin-right-10" onClick={this.onAddUser}>添加成员</RUI.Button>
+            <RUI.Button onClick={this.onEditClass}>编辑</RUI.Button>
+        </div>;
+    }
+});
+
 module.exports = React.createClass({
     getInitialState:function(){
         return {
@@ -185,8 +204,7 @@ module.exports = React.createClass({
                         <RUI.Column title={"描述"} dataField={'classDescrip'} />
                         <RUI.Column title={"操作"}>
                             <RUI.Table.ItemRender>
-                                <RUI.Button className="primary margin-right-10" onClick={this.addUserFunc}>添加成员</RUI.Button>
-                                <RUI.Button onClick={this.editClassDetail}>编辑</RUI.Button>
+                                <OperationItemRender onAddUser={this.addUserFunc} onEditClass={this.editClassDetail} />
                             </RUI.Table.ItemRender>
                         </RUI.Column>
                     </RUI.Table>
