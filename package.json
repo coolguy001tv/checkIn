@@ -5,7 +5,7 @@
   "main": "./server/index.js",
   "scripts": {
     "dev-static": "set NODE_ENV=development&&webpack-dev-server --devtool eval --progress --colors --hot --port 9090",
-    "dev-s": "set NODE_ENV=development&&node-debug --harmony ./server/index.js",
+    "dev-s": "set NODE_ENV=development&&node-dev --harmony ./server/index.js",
     "dev-server": "set NODE_ENV=development&&node --harmony ./server/index.js",
     "build": "set NODE_ENV=production&&webpack -p&&npm run cron&&node --harmony ./server/index.js"
   },

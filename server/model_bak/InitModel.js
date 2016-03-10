@@ -24,7 +24,6 @@ module.exports = function(){
             var d = md5.digest('hex');
             db.serialize(function(){
                 db.run('CREATE TABLE user(id integer primary key autoincrement,name varchar(20),password varchar(32))',function(err){
-                    debugger;
                     if(err === null){//创建表成功，说明之前没有数据，此时插入数据
                         db.run('INSERT INTO user(`name`,`password`) values("admin",$password)',{
                             $password:d

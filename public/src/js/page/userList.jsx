@@ -1,5 +1,7 @@
 import RUI from "react-component-lib";
 import API from "../common/api.jsx";
+import OperationItemRender from '../components/render/OperationItemRender.jsx';
+
 module.exports=React.createClass({
     getInitialState:function(){
         return {
@@ -74,8 +76,10 @@ module.exports=React.createClass({
             pageData:pageData
         })
     },
-    checkDetail:function(obj){
-        RUI.DialogManager.alert("暂不支持", '提示');
+    formatLink:function(type, data){
+        if(type == 'detail') {
+            return '/page/user/' + data.id;
+        }
     },
     render:function(){
         return (<div className='content'>
@@ -86,7 +90,6 @@ module.exports=React.createClass({
             <div className='list-content'>
                 <div className="list-table clearfix">
                     <RUI.Table dataSource={this.state.userList}>
-                        <RUI.Column title={"序号"} dataField={"index"}></RUI.Column>
                         <RUI.Column title={"ID号"} dataField={"id"} />
                         <RUI.Column title={"姓名"} dataField={"name"} />
                         <RUI.Column title={"班次"} dataField={'className'} />
@@ -97,7 +100,7 @@ module.exports=React.createClass({
                         </RUI.Column>
                         <RUI.Column title={"操作"}>
                             <RUI.Table.ItemRender>
-                                <RUI.Button onClick={this.checkDetail}>编辑</RUI.Button>
+                                <OperationItemRender formatLink={this.formatLink}/>
                             </RUI.Table.ItemRender>
                         </RUI.Column>
                     </RUI.Table>

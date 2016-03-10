@@ -75,6 +75,14 @@ KUser.prototype = {
             var user = KUserModel(0);//0表示所有用户
             this.body = yield getAllUsers(user);
         });
+
+        this.router.get('/kuser/detail/:id', function *() {
+            this.type = 'application/json';
+
+            var params = this.params;
+            var oneUser = yield KUserModel(params.id).getUserById();
+            this.body = R.set(oneUser);
+        });
     }
 
 }
