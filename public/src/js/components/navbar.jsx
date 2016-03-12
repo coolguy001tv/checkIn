@@ -6,7 +6,10 @@ module.exports = React.createClass({
         return (<div className="menu">
             <ul>
                 <li><Link to="/page/list" activeClassName="active">考勤记录</Link></li>
-                <li><Link to="/page/member" activeClassName="active">团队管理</Link></li>
+                <li><Link to="/page/error" activeClassName="active">异常记录</Link></li>
+                <li><Link to="/page/report" activeClassName="active">报表统计</Link></li>
+                <li><Link to="/page/member" activeClassName="active">班次管理</Link></li>
+                <li><Link to="/page/user" activeClassName="active">员工列表</Link></li>
             </ul>
         </div>);
     }
