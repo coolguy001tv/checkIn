@@ -1,7 +1,7 @@
-CREATE TABLE rules (
-    id          INT( 32 )        PRIMARY KEY
+CREATE TABLE rules ( 
+    id          INTEGER          PRIMARY KEY AUTOINCREMENT
                                  NOT NULL,
     name        VARCHAR( 32 )    NOT NULL,
     description VARCHAR( 64 ),
-    rule        VARCHAR( 2000 )
+    rule        VARCHAR( 2000 ) 
 );
