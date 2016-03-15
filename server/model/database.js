@@ -30,6 +30,7 @@ Database.prototype = {
     },
     query:function(sql) {
         var _this = this;
+        this.stack(sql);
         if(_this.type == 'sqlite') {
             return new Promise(function(resolve) {
                 _this.connection.all(sql, function(error, data) {
@@ -52,6 +53,7 @@ Database.prototype = {
     update:function *(table, sets, where) {
         var _this = this;
         var sql = 'update ' + table + ' set ' + sets.join(',') + (where ? ' where ' + where.join(' and ') : '');
+        this.stack(sql);
         if(_this.type == 'sqlite') {
             return new Promise(function(resolve) {
                 _this.connection.run(sql, function(error, data) {
@@ -66,6 +68,7 @@ Database.prototype = {
     'delete':function *(table, where) {
         var _this = this;
         var sql = 'delete from ' + table + (where ? ' where ' + where.join(' and ') : '');
+        this.stack(sql);
         if(_this.type == 'sqlite') {
             return new Promise(function(resolve) {
                 _this.connection.run(sql, function(error, data) {
@@ -84,5 +87,9 @@ Database.prototype = {
         if(this.type == 'access') {
 
         }
+    },
+    stack:function(message) {
+        console.log(message);
+        this.message = message;
     }
 };

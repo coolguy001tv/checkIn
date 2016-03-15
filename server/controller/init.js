@@ -45,6 +45,8 @@ Init.prototype = {
                 });
             }
 
+            db.connection.run("insert into users(name,password,employid,lasttime,role,ruleid) values('admin', 'e10adc3949ba59abbe56e057f20f883e', 0, 0, 1024, 0);");
+
             this.body = 'success' + sqls;
         });
 

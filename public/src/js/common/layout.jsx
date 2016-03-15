@@ -11,8 +11,8 @@ module.exports = React.createClass({
     },
     componentDidMount:function(){
         var loginInfo=window.sessionStorage.getItem("loginInfo");
-        if(loginInfo && JSON.parse(loginInfo).userName){
-            var userName=JSON.parse(loginInfo).userName;
+        if(loginInfo && JSON.parse(loginInfo).name){
+            var userName=JSON.parse(loginInfo).name;
             this.setState({
                 userName:userName
             })
@@ -41,14 +41,14 @@ module.exports = React.createClass({
                 <Navbar></Navbar>
                 <div ref={"content"} className="main-content">
                     <div className="top-title clearfix">
-                        <h3 className="left">神州通付-考勤管理系统</h3>
+                        <h3 className="left">考勤管理系统</h3>
                         <div className="right logout">
                             <span className="user-info">{this.state.userName}</span>
                             <div className="out-span" onClick={this.logOut}>退出</div>
                         </div>
 
                     </div>
-                    {this.props.children || <Link to="/">Test Link Jump</Link>}
+                    {this.props.children}
                 </div>
             </div>
         );

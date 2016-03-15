@@ -23,13 +23,7 @@ var OperationItemRender = React.createClass({
 module.exports = React.createClass({
     getInitialState:function(){
         return {
-            sourceData:[{
-                index:1,
-                id:1,
-                className:"正常班次",
-                classRule:"无定义",
-                classDescrip:"正常班次"
-            }],
+            sourceData:[],
             userList:[],
             pageData:{},
             checkedAll:false

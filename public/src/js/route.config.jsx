@@ -16,8 +16,8 @@ module.exports = [
                 component:loader(require("bundle?lazy!./page/error.jsx"))
             },
             {
-                path:'member',
-                component:loader(require("bundle?lazy!./page/member.jsx"))
+                path:'rule',
+                component:loader(require("bundle?lazy!./page/rule.jsx"))
             },
             {
                 path:'user',

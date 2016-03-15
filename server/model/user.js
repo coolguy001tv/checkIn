@@ -1,52 +1,61 @@
-var Model = require('../model');
+var Model = require('./model');
 var parse = require('co-body');
-require("babel-core/register");
-//var UserController = require('../controller/user.js');
 
-var User = module.exports = function(router) {
-    Model.call(this, router);
-    this.register();
+var User = module.exports = function(data) {
+    Model.call(this);
+
+    this.table = 'users';
+    this.lang.set({
+        LOGIN_PASSWORD:'用户名密码错误'
+    });
+
+    data && this.setData(data);
+};
+
+User.getInstance = function() {
+    var Clazz = this;
+    return new Clazz();
 };
 
 User.prototype = {
-    register:function() {
-        this.router.post('/user/login/:name/:password', function () {
-            this.type = 'application/json';
-            var params = this.params;
-            console.log(params);
-            //var oneUser = UserController(params.name,params.password);
-            //(async function(){
-            //    var result =  await oneUser.check();
-            //    console.log('111111111111111111',result);
-            //    if(result){
-            //        this.body = JSON.stringify({"msg":params.name+" is ok"});
-            //    }else{
-            //        this.body = JSON.stringify({"msg":params.name+" is not ok"});
-            //    }
-            //}());
+    id:0,
+    name:'',
+    password:'',
+    employid:0,
+    lasttime:0,
+    role:0,
+    ruleid:0,
 
-        });
-        this.router.get('/user/init',function(){
-            UserController("","").init();
-        });
-        //
-        this.router.post('/user/login', function *() {
-            var post = (yield parse.form(this));
-            this.type = 'application/json';
-            this.body = JSON.stringify(post);
-        });
+    setData:function(data) {
+        Object.keys(data).forEach(function(key) {
+            this[key] = data[key];
+        }.bind(this));
 
-        // async demo
-        var _this = this;
-        this.router.get('/user/async', function *(next) {
-            this.body = (yield _this.asyncDemo());
-        });
+        return this;
     },
-    asyncDemo:function() {
-        return new Promise(function(resolve, reject) {
-            setTimeout(function() {
-                resolve('async is ok');
-            });
-        });
+    login:function *(data) {
+        var db = this.connection();
+
+        var crypto = require('crypto');
+        var md5 = crypto.createHash('md5');
+        md5.update(data.password);
+        var password = md5.digest('hex');
+
+        var result = yield db.select(this.table, ['*'], ['name=\'' + data.name + '\'', 'password=\'' + password + '\'']);
+        if(result && result.length) {
+            return new User(result[0]);
+        }else {
+            return null;
+        }
+    },
+    toJSON:function() {
+        return {
+            id:this.id,
+            name:this.name,
+            employid:this.employid,
+            lasttime:this.lasttime || Date.now(),
+            role:this.role,
+            ruleid:this.ruleid
+        };
     }
 };

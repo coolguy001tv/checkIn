@@ -13,7 +13,7 @@ module.exports = React.createClass({
     render:function(){
         return (<div>
             <div className="login-center">
-                <h1>神州通付---考勤管理系统</h1>
+                <h1>考勤管理系统</h1>
                 <div className="form-content">
                     <form onSubmit={this.loginFunc}>
                     <label>用户名</label>
@@ -35,13 +35,11 @@ module.exports = React.createClass({
             //发送协议
             var url=API.LOGIN;
             $.post(url,{name:userName,password:passWord},function(jsonData){
-                if(jsonData.success){
+                if(jsonData.code === 0){
                     //sessionStorage 存储
-                    var loginInfo={
-                        userName:userName
-                    };
+                    var loginInfo= jsonData.data;
                     window.sessionStorage.setItem("loginInfo",JSON.stringify(loginInfo));
-                    _this.context.router.replace('/page/list');
+                    _this.context.router.push('/page/list');
                     return;
                 }else{
                     _this.setState({
