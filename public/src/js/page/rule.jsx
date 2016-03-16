@@ -21,6 +21,9 @@ var OperationItemRender = React.createClass({
 });
 
 module.exports = React.createClass({
+    contextTypes: {
+        router: React.PropTypes.object
+    },
     getInitialState:function(){
         return {
             sourceData:[],
@@ -52,22 +55,16 @@ module.exports = React.createClass({
         },"json")
     },
     getClassList:function(){
-        var url=API.GET_ALL_CLASSES;
-        var _this=this;
-        $.get(url,{},function(jsonData){
-            if(jsonData.success){
-                var data=jsonData.resultMap;
-                var list=data || [];
-                list.forEach(function(item,index){
-                    item.index=index+1;
-                })
-                _this.setState({
+        $.get(API.GET_RULE_LIST,{},function(jsonData){
+            if(jsonData.code === 0){
+                var list = jsonData.data || [];
+                this.setState({
                     sourceData:list
-                })
+                });
             }else{
                 RUI.DialogManager.alert(jsonData.description, '提示');
             }
-        },"json")
+        }.bind(this),"json")
     },
     addUserFunc:function(dataObj){
         this.curClassObj=dataObj;  //当前选中的班次
@@ -80,7 +77,7 @@ module.exports = React.createClass({
         RUI.DialogManager.alert('暂不支持该功能', '提示');
     },
     addClass:function(){
-        RUI.DialogManager.alert('暂不支持该功能', '提示');
+        this.context.router.push('/page/rule/add');
     },
     searchList:[], //按条件搜索出的用户列表
     searchUser:function(){

@@ -84,3 +84,15 @@ body{
     }
   }
 }
+
+.main-content .footer {
+  position: fixed;
+  bottom: 0;
+  left: 100px;
+  height: 60px;
+  width:100%;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+  padding: 0 39px;
+  line-height: 60px;
+}

@@ -39,7 +39,9 @@ module.exports = React.createClass({
                     //sessionStorage 存储
                     var loginInfo= jsonData.data;
                     window.sessionStorage.setItem("loginInfo",JSON.stringify(loginInfo));
-                    _this.context.router.push('/page/list');
+                    setTimeout(function() {
+                        _this.context.router.push('/page/list');
+                    }, 50);
                     return;
                 }else{
                     _this.setState({

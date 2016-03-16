@@ -20,6 +20,10 @@ module.exports = [
                 component:loader(require("bundle?lazy!./page/rule.jsx"))
             },
             {
+                path:'rule/add',
+                component:loader(require('bundle?lazy!./page/rule.add.jsx'))
+            },
+            {
                 path:'user',
                 component:loader(require("bundle?lazy!./page/userList.jsx"))
             },
