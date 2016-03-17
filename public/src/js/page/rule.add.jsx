@@ -20,9 +20,10 @@ module.exports = React.createClass({
 
         $.post(API.ADD_RULE, data, function(response) {
             if(response.code === 0) {
-
+                RUI.DialogManager.alert('添加成功', '提示');
+                this.context.router.push('/page/rule');
             }
-        })
+        }.bind(this))
     },
     render:function(){
         return (

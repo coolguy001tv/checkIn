@@ -189,10 +189,8 @@ module.exports = React.createClass({
                 </div>
                 <div className="list-table clearfix">
                     <RUI.Table dataSource={this.state.sourceData}>
-                        <RUI.Column title={"序号"} dataField={"index"}></RUI.Column>
-                        <RUI.Column title={"班次"} dataField={"className"} />
-                        <RUI.Column title={"班次规则"} dataField={"classRule"} />
-                        <RUI.Column title={"描述"} dataField={'classDescrip'} />
+                        <RUI.Column title={"班次"} dataField={"name"} />
+                        <RUI.Column title={"描述"} dataField={'description'} />
                         <RUI.Column title={"操作"}>
                             <RUI.Table.ItemRender>
                                 <OperationItemRender onAddUser={this.addUserFunc} onEditClass={this.editClassDetail} />

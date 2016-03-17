@@ -50,6 +50,21 @@ Database.prototype = {
             })
         }
     },
+    insert:function *(table, keys, values) {
+        var _this = this;
+        var sql = 'insert into ' + table + '(' + keys.join(',') + ') values(' + values.join(',') + ')';
+        this.stack(sql);
+        if(_this.type == 'sqlite') {
+            return new Promise(function(resolve) {
+                _this.connection.run(sql, function(error, data) {
+                    resolve(this.lastID);
+                });
+            });
+        }
+        if(_this.type == 'access') {
+            return this.query(sql);
+        }
+    },
     update:function *(table, sets, where) {
         var _this = this;
         var sql = 'update ' + table + ' set ' + sets.join(',') + (where ? ' where ' + where.join(' and ') : '');
