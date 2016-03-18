@@ -32,6 +32,10 @@ User.prototype = {
         });
 
         (function(times) {
+            // 无打卡记录，则记一天
+            if(times.length == 0) {
+                return 60 * 8;
+            }
             var last = times.pop();
             var standard = new Date();
             var date = new Date();
@@ -66,6 +70,10 @@ User.prototype = {
         })([Date.now() + 3600 * 1000 * 10]);
 
         (function(times) {
+            if(times.length < 2) {
+                return 0;
+            }
+
             var first = times.shift();
             var standard = new Date();
             var date = new Date();

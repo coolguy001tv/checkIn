@@ -1,6 +1,7 @@
 var Controller = require('../controller');
 var RuleModel = require('../model/rule');
 var parse = require('co-body');
+var URL = require('../util/url');
 
 var Rule = module.exports = function(router) {
     Controller.call(this, router);
@@ -14,6 +15,19 @@ Rule.prototype = {
 
             var rule = new RuleModel();
             var result = yield rule.getList();
+            if(result) {
+                this.body = Controller.format(result, 0, rule.lang('SUCCESS'));
+            }else {
+                this.body = Controller.format(null, 1, rule.lang('ERROR'));
+            }
+        });
+
+        this.router.get('/rule/detail', function *() {
+            var url = new URL(this.request.url);
+            var id = url.getParam('id');
+
+            var rule = new RuleModel();
+            var result = yield rule.getById(id);
             if(result) {
                 this.body = Controller.format(result, 0, rule.lang('SUCCESS'));
             }else {

@@ -20,11 +20,15 @@ Rule.prototype = {
     getList:function *() {
         return yield this.connection().select(this.table, ['*']);
     },
+    getById:function *(id) {
+        var result = yield this.connection().select(this.table, ['*'], ['id=' + id], 'limit 1');
+        return result ? result[0] : null;
+    },
     save:function *() {
         var result = null;
         if(this.id) {
             result = yield this.connection().update(this.table, [
-
+                `name='${this.name}'`, `description='${this.description}'`, `rule='${this.rule}'`
             ], [
                 'id=' + this.id
             ]);

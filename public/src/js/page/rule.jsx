@@ -73,8 +73,7 @@ module.exports = React.createClass({
         this.refs.dialog.show()
     },
     editClassDetail:function(dataObj){
-        console.log(dataObj);
-        RUI.DialogManager.alert('暂不支持该功能', '提示');
+        this.context.router.push('/page/rule/add/' + dataObj.id);
     },
     addClass:function(){
         this.context.router.push('/page/rule/add');

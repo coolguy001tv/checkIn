@@ -1,4 +1,5 @@
 import RUI from 'react-component-lib';
+import API from '../common/api.jsx';
 require("../../css/list.scss");
 module.exports = React.createClass({
     getInitialState:function(){
@@ -27,7 +28,7 @@ module.exports = React.createClass({
         var _this=this;
         var postData=_this.searchData;
         var pageSize=_this.state.pageData.pageSize;
-        var url="/checkIn/list";
+        var url=API.GET_CHECKIN_LIST;
         postData.pageIndex=pageIndex || 1;
         postData.pageSize=pageSize;
         $.get(url,postData,function(jsonData){
