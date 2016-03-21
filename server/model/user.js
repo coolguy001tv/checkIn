@@ -48,6 +48,19 @@ User.prototype = {
             return null;
         }
     },
+    getListByIds:function *(ids) {
+        var db = this.connection();
+
+        var result = yield db.select(this.table, ['*'], [`id in (${ids.join(',')})`]);
+        if(result && result.length) {
+            return result.map(function(item) {
+                var model = new User(item);
+                return model.toJSON();
+            });
+        }else {
+            return null;
+        }
+    },
     toJSON:function() {
         return {
             id:this.id,

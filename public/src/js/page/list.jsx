@@ -32,13 +32,14 @@ module.exports = React.createClass({
         postData.pageIndex=pageIndex || 1;
         postData.pageSize=pageSize;
         $.get(url,postData,function(jsonData){
-            if(jsonData.success){
-                var data=jsonData.resultMap;
-                var totalNum=data.iTotalDisplayRecords || 0;
+            if(jsonData.code === 0){
+                var data=jsonData.data;
+                var totalNum=data.total || 0;
                 var list=data.list || [];
                 list.forEach(function(item,index){
                     item.index=(pageIndex-1)*pageSize+index+1;
-                })
+                });
+
                 _this.setState({
                     sourceData:list,
                     pageData:{
@@ -49,7 +50,7 @@ module.exports = React.createClass({
                 })
 
             }else{
-                alert(jsonData.description)
+                alert(jsonData.message)
             }
         },"json");
 
@@ -80,6 +81,10 @@ module.exports = React.createClass({
         }
         return "";
     },
+    formatTime:function(time) {
+        var formatter = new RUI.DateFormatter("Y-m-d H:i:s");
+        return formatter.setTime(time).toString();
+    },
     exportBtn:function(){
         RUI.DialogManager.alert('暂不支持该功能', '提示');
     },
@@ -107,9 +112,8 @@ module.exports = React.createClass({
                 <div className="list-table clearfix">
                     <RUI.Table dataSource={this.state.sourceData}>
                         <RUI.Column title={"序号"} dataField={"index"}/>
-                        <RUI.Column title={"日期"} dataField={"checkInDay"} />
-                        <RUI.Column title={"姓名"} dataField={"name"} />
-                        <RUI.Column title={"签到时间"} dataField={"checkInTime"} />
+                        <RUI.Column title={"姓名"} dataField={"user.name"} />
+                        <RUI.Column title={"签到时间"} dataField={"time"} fieldFunction={this.formatTime} />
                         <RUI.Column title={"备注"} dataField={"note"} />
                     </RUI.Table>
                     <div className="no-data" style={{display:this.state.sourceData.length>0?"none":""}}>暂无数据~</div>

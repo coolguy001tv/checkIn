@@ -26,7 +26,8 @@ Database.prototype = {
         return yield this.query(sql);
     },
     total:function *(table) {
-        return yield this.query("select count(1) as total from " + table);
+        var result = yield this.query("select count(1) as total from " + table);
+        return result && result.length ? result[0].total : 0;
     },
     query:function(sql) {
         var _this = this;

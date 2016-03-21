@@ -41,7 +41,7 @@ module.exports = React.createClass({
                     window.sessionStorage.setItem("loginInfo",JSON.stringify(loginInfo));
                     setTimeout(function() {
                         _this.context.router.push('/page/list');
-                    }, 50);
+                    }, 150);
                     return;
                 }else{
                     _this.setState({

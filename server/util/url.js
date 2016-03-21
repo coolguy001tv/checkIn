@@ -142,6 +142,14 @@ URL.prototype = {
 		return this._query[name] || "";
 	},
 	/**
+	 * 获取所有参数对象
+	 * @method getParams
+	 * @return {String}
+	 */
+	getParams:function() {
+		return this._query || {};
+	},
+	/**
 	 * 设置参数值
 	 * @param {Object} name
 	 * @param {Object} value
