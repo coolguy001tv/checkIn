@@ -43,6 +43,7 @@ Sync.prototype = {
             var rules = map(rules, 'id');
 
             var errors = [];
+            var extras = [];
             var validated = [];
             for(var i=0;i<users.length;i++) {
                 var user = users[i];
@@ -56,7 +57,7 @@ Sync.prototype = {
                 ], 'order by time desc');
 
                 // 统一更新状态为已验证过
-                validated = validate.concat(currents.map(function(item) {
+                validated = validated.concat(currents.map(function(item) {
                     return item.id;
                 }));
 
@@ -67,11 +68,28 @@ Sync.prototype = {
                 var late = rule.rule.error.call(null, currents.map(function(item) {
                     return item.time;
                 }));
+                var extra = rule.rule.extra.call(null, currents.map(function(item) {
+                    return item.time;
+                }));
 
-                console.log(late);
+                if(late) {
+                    errors.push(currents[0] ? Object.assign({
+                        late:late
+                    }, currents[0]) : {
+                        userid:user.id,
+                        time:startDate.getTime(),
+                        late:late
+                    });
+                }
+                if(extra) {
+                    extras.push(currents[currents.length - 1]);
+                }
             }
 
-            this.body = 'success';
+            this.body = {
+                errors:errors,
+                extras:extras
+            };
         });
 
         // 同步考勤中的异常信息
