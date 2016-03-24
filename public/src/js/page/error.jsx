@@ -1,4 +1,5 @@
 import RUI from 'react-component-lib';
+import API from '../common/api.jsx';
 require("../../css/error.scss");
 
 module.exports = React.createClass({
@@ -11,6 +12,19 @@ module.exports = React.createClass({
                 totalNum:1
             }
         }
+    },
+    componentDidMount:function() {
+        this.fetchList();
+    },
+    fetchList:function() {
+        $.get(API.GET_ERROR_LIST, {
+            pageIndex:this.state.pageData.currentPage,
+            pageSize:this.state.pageData.pageSize
+        }, function(response) {
+            if(response.code === 0) {
+
+            }
+        });
     },
     render:function(){
         return (<div className='content'>

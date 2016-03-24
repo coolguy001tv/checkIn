@@ -54,7 +54,7 @@ Sync.prototype = {
                     `time <= ${endDate.getTime()}`,
                     `validated=0`,
                     `userid=${user.id}`
-                ], 'order by time desc');
+                ], 'order by time');
 
                 // 统一更新状态为已验证过
                 validated = validated.concat(currents.map(function(item) {
@@ -65,9 +65,11 @@ Sync.prototype = {
                 if(!rule) {
                     continue;
                 }
+
                 var late = rule.rule.error.call(null, currents.map(function(item) {
                     return item.time;
                 }));
+
                 var extra = rule.rule.extra.call(null, currents.map(function(item) {
                     return item.time;
                 }));
@@ -82,7 +84,26 @@ Sync.prototype = {
                     });
                 }
                 if(extra) {
-                    extras.push(currents[currents.length - 1]);
+                    extras.push(Object.assign({
+                        extra:extra
+                    }, currents[currents.length - 1]));
+                }
+            }
+
+            if(errors.length) {
+                for(var i=0;i<errors.length;i++) {
+                    var lastID = yield db.insert('errors', ['checkin', 'userid', 'late'], [`'${errors[i].time}'`, `${errors[i].userid}`, `${errors[i].late}`]);
+                    if(errors[i].id) {
+                        yield db.update('checkins', [`errorid='${lastID}'`], [`id=${errors[i].id}`]);
+                    }
+                }
+            }
+            if(extras.length) {
+                for(var i=0;i<extras.length;i++) {
+                    var lastID = yield db.insert('extras', ['time', 'userid', 'extra'], [`'${extras[i].time}'`, `${extras[i].userid}`, `${extras[i].extra}`]);
+                    if(extras[i].id) {
+                        yield db.update('checkins', [`extraid='${lastID}'`], [`id=${errors[i].id}`]);
+                    }
                 }
             }
 

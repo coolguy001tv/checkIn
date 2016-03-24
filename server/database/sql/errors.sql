@@ -5,5 +5,6 @@ CREATE TABLE errors (
     checkin     CHAR( 14 )      NOT NULL,
     userid      INT( 32 )       NOT NULL,
     late        INT( 32 )       NOT NULL,
-    extraid     INT( 32 ) 
+    extraid     INT( 32 ),
+    validted    INT( 32 )       DEFAULT ( 0 ) 
 );
